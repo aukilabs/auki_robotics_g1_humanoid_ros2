@@ -8,7 +8,7 @@ def generate_launch_description():
 
     bringup_dir = get_package_share_directory('g1_description')
     urdf_dir = os.path.join(bringup_dir, 'urdf')
-    urdf_file = os.path.join(urdf_dir, 'g1_29dof_lock_waist_rev_1_0.urdf')
+    urdf_file = os.path.join(urdf_dir, 'g1_body29_hand14.urdf')
 
     with open(urdf_file, 'r') as infp:
         robot_desc = infp.read()
