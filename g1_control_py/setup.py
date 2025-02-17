@@ -20,7 +20,7 @@ setup(
     entry_points={
         'console_scripts': [
             'cmd_vel_translator = g1_control_py.cmd_vel_translator:main',
-            'lowstate_transltor = g1_control_py.lowstate_translator:main'
+            'lowstate_translator = g1_control_py.lowstate_translator:main'
         ],
     },
 )
