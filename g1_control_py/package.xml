@@ -3,7 +3,7 @@
 <package format="3">
   <name>g1_control_py</name>
   <version>0.0.0</version>
-  <description>G1 High Level Control</description>
+  <description>G1 High Level Control and State ROS2 Translator</description>
   <maintainer email="sam@aukilabs.com">Sam Choy</maintainer>
   <license>BSD 3-Clause License</license>
 
