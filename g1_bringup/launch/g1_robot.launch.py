@@ -14,6 +14,10 @@ def generate_launch_description():
     # Description
     g1_description_file = os.path.join(FindPackageShare('g1_description').find('g1_description'), 'launch', 'g1_description.launch.py')
 
+    # Navigation
+    nav_file = os.path.join(FindPackageShare('nav2_bringup').find('nav2_bringup'), 'launch', 'bringup_launch.py')
+    nav_params_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'navigation', 'stvl_navigation.yaml')
+
     return LaunchDescription([
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(mid360_file)
@@ -37,4 +41,23 @@ def generate_launch_description():
             package='g1_control_py',
             executable='cmd_vel_translator',
         ),
+        Node(
+            package='g1_control_py',
+            executable='odom_translator',
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(nav_file),
+            launch_arguments={
+                'slam': 'False',
+                'use_sim_time': 'False',
+                'map':"/home/unitree/Workspaces/ros2/auki_ws/src/g1_humanoid_ros2/g1_bringup/config/navigation/empty.yaml",
+                'params_file': nav_params_file
+            }.items()
+        ),
+        Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            output="screen" ,
+            arguments=["0", "0", "0", "0", "0", "0", "map", "odom"]
+        )
     ])
