@@ -6,9 +6,16 @@ from launch_ros.actions import Node
 import os
 
 def generate_launch_description():
+    # Sensors
+    mid360_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'launch', 'sensors', 'mid360.launch.py')
+
+    # Description
     g1_description_file = os.path.join(FindPackageShare('g1_description').find('g1_description'), 'launch', 'g1_description.launch.py')
 
     return LaunchDescription([
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(mid360_file)
+        ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(g1_description_file)
         ),
