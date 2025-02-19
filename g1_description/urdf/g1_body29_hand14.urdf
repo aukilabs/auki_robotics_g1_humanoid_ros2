@@ -601,7 +601,8 @@
   <!-- mid360 -->
   <link name="mid360_link"></link>
   <joint name="mid360_joint" type="fixed">
-    <origin xyz="0.0002835 0.00003 0.41618" rpy="0 3.14159 3.14159"/>
+    <!-- head is slightly tilted 0.0401426 rad -->
+    <origin xyz="0.0002835 0.00003 0.41618" rpy="-3.1415927 0.0401426 0"/>
     <parent link="torso_link"/>
     <child link="mid360_link"/>
   </joint>

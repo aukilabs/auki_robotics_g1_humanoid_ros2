@@ -167,7 +167,7 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      robot_radius: 0.22
+      robot_radius: 0.33
       plugins: ["stvl_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -196,7 +196,7 @@ local_costmap:
           marking: true
           clearing: false
           obstacle_range: 3.0          # meters
-          min_obstacle_height: 0.3     # default 0, meters
+          min_obstacle_height: 0.1     # default 0, meters
           # max for office should be 1.2
           # max for playgroun should be 10
           max_obstacle_height: 10.0     # default 3, meters,
@@ -236,7 +236,12 @@ global_costmap:
       global_frame: map
       robot_base_frame: pelvis
       use_sim_time: True
-      robot_radius: 0.22
+      robot_radius: 0.33
+      rolling_window: false
+      width: 30
+      height: 30
+      origin_x: -15.0
+      origin_y: -15.0
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "stvl_layer", "inflation_layer"]
@@ -264,7 +269,7 @@ global_costmap:
           marking: true
           clearing: false
           obstacle_range: 3.0          # meters
-          min_obstacle_height: 0.3     # default 0, meters
+          min_obstacle_height: 0.1     # default 0, meters
           # max for office should be 1.2
           # max for playgroun should be 10
           max_obstacle_height: 10.0     # default 3, meters,
@@ -281,8 +286,8 @@ global_costmap:
           clearing: true
           max_z: 8.0                  # default 0, meters
           min_z: 1.0                  # default 10, meters
-          vertical_fov_angle: 0.6   # default 0.7, radians. For 3D lidars it's the symmetric FOV about the planar axis.
-          vertical_fov_padding: 0.05    # 3D Lidar only. Default 0, in meters 
+          vertical_fov_angle: 0.6     # default 0.7, radians. For 3D lidars it's the symmetric FOV about the planar axis.
+          vertical_fov_padding: 0.05  # 3D Lidar only. Default 0, in meters 
           horizontal_fov_angle: 6.29  # 3D lidar scanners like the VLP16 have 360 deg horizontal FOV.
           decay_acceleration: 5.0     # default 0, 1/s^2. 
           model_type: 1               # default 0, model type for frustum. 0=depth camera, 1=3d lidar like VLP16 or similar
