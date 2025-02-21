@@ -45,6 +45,10 @@ def generate_launch_description():
             package='g1_control_py',
             executable='odom_translator',
         ),
+        Node(
+            package='g1_control_py',
+            executable='goal_pose_republisher',
+        ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(nav_file),
             launch_arguments={
