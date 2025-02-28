@@ -167,12 +167,8 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      robot_radius: 0.33
+      robot_radius: 0.35
       plugins: ["stvl_layer", "inflation_layer"]
-      inflation_layer:
-        plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
       stvl_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer" # For Foxy and later
         enabled: true
@@ -218,8 +214,10 @@ local_costmap:
           horizontal_fov_angle: 6.29  # 3D lidar scanners like the VLP16 have 360 deg horizontal FOV.
           decay_acceleration: 5.0     # default 0, 1/s^2. 
           model_type: 1               # default 0, model type for frustum. 0=depth camera, 1=3d lidar like VLP16 or similar
-      static_layer:
-        map_subscribe_transient_local: True
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.2
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
@@ -236,7 +234,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: pelvis
       use_sim_time: True
-      robot_radius: 0.33
+      robot_radius: 0.35
       rolling_window: false
       width: 30
       height: 30
@@ -291,13 +289,13 @@ global_costmap:
           horizontal_fov_angle: 6.29  # 3D lidar scanners like the VLP16 have 360 deg horizontal FOV.
           decay_acceleration: 5.0     # default 0, 1/s^2. 
           model_type: 1               # default 0, model type for frustum. 0=depth camera, 1=3d lidar like VLP16 or similar
-      static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.2
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -334,7 +332,7 @@ recoveries_server:
     wait:
       plugin: "nav2_recoveries/Wait"
     global_frame: odom
-    robot_base_frame: base_link
+    robot_base_frame: pelvis
     transform_timeout: 0.1
     use_sim_time: true
     simulate_ahead_time: 2.0
