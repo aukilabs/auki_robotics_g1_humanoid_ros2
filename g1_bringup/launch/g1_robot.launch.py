@@ -16,8 +16,8 @@ def generate_launch_description():
 
     # Navigation
     nav_file = os.path.join(FindPackageShare('nav2_bringup').find('nav2_bringup'), 'launch', 'bringup_launch.py')
-    nav_params_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'navigation', 'stvl_navigation.yaml')
-
+    nav_params_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'navigation', 'stvl_navigation.yaml') # stvl
+    # nav_params_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'navigation', 'octomap_navigation.yaml') # octomap
     return LaunchDescription([
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(mid360_file)
@@ -44,6 +44,10 @@ def generate_launch_description():
         Node(
             package='g1_control_py',
             executable='odom_translator',
+        ),
+        Node(
+            package='g1_control_py',
+            executable='goal_pose_republisher',
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(nav_file),

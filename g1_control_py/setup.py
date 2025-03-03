@@ -21,7 +21,8 @@ setup(
         'console_scripts': [
             'cmd_vel_translator = g1_control_py.cmd_vel_translator:main',
             'lowstate_translator = g1_control_py.lowstate_translator:main',
-            'odom_translator = g1_control_py.odom_translator:main'
+            'odom_translator = g1_control_py.odom_translator:main',
+            'goal_pose_republisher = g1_control_py.goal_pose_republisher:main'
         ],
     },
 )

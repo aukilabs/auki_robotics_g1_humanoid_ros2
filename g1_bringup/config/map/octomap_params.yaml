@@ -1,0 +1,70 @@
+octomap_server:
+  ros__parameters:
+    frame_id: "map"
+    base_frame_id: "pelvis"
+    resolution: 0.05
+
+    use_height_map: true
+    use_sim_time: false
+    colored_map: true
+    color_factor: 0.8
+
+    #  Map Ranges
+    point_cloud_min_x: -2.0
+    point_cloud_max_x: 2.0
+    point_cloud_min_y: -2.0
+    point_cloud_max_y: 2.0
+    point_cloud_min_z: -1.0
+    point_cloud_max_z: 10.0
+    
+    occupancy_min_z: 0.0
+    occupancy_max_z: 10.0
+    
+    min_x_size: 0.0
+    min_y_size: 0.0
+
+    # Filters
+    filter_speckles: true
+    filter_ground_plane: true
+    ground_filter.distance: 0.04
+    ground_filter.angle: 0.15
+    ground_filter.plane_distance: 1.0
+
+    # Sensor Model
+    sensor_model.max_range: 5.0 # -1.0 for unlimited
+    sensor_model.hit: 0.7
+    sensor_model.miss: 0.4
+    sensor_model.min: 0.12
+    sensor_model.max: 0.97
+
+    #
+    compress_map: true
+    incremental_2D_projection: false
+    publish_free_space: true
+    latch: true # for publish latch topics, will take longer
+    
+    # max_depth: 512
+    
+    # color the voxels
+    # color.a
+    # color.b
+    # color.g
+    # color.r
+    
+    # color_free.a
+    # color_free.b
+    # color_free.g
+    # color_free.r
+    
+    # octomap_path
+
+    
+    
+    
+
+
+
+
+    
+    
+
