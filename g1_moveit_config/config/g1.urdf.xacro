@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="g1">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import g1 urdf file -->
+    <xacro:include filename="$(find g1_description)/urdf/g1_body29_hand14.urdf" />
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="g1.ros2_control.xacro" />
+
+
+    <xacro:g1_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+</robot>

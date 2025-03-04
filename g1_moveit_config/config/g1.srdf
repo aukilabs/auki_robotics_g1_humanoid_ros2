@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="g1">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="upper_body">
+        <joint name="waist_yaw_joint"/>
+        <joint name="waist_roll_joint"/>
+        <joint name="waist_pitch_joint"/>
+        <joint name="left_shoulder_pitch_joint"/>
+        <joint name="left_shoulder_roll_joint"/>
+        <joint name="left_shoulder_yaw_joint"/>
+        <joint name="left_elbow_joint"/>
+        <joint name="left_wrist_roll_joint"/>
+        <joint name="left_wrist_pitch_joint"/>
+        <joint name="left_wrist_yaw_joint"/>
+        <joint name="right_shoulder_pitch_joint"/>
+        <joint name="right_shoulder_roll_joint"/>
+        <joint name="right_shoulder_yaw_joint"/>
+        <joint name="right_elbow_joint"/>
+        <joint name="right_wrist_roll_joint"/>
+        <joint name="right_wrist_pitch_joint"/>
+        <joint name="right_wrist_yaw_joint"/>
+    </group>
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="L_hand_base_link" link2="L_index_proximal" reason="User"/>
+    <disable_collisions link1="L_hand_base_link" link2="L_middle_proximal" reason="User"/>
+    <disable_collisions link1="L_hand_base_link" link2="L_pinky_proximal" reason="User"/>
+    <disable_collisions link1="L_hand_base_link" link2="L_ring_proximal" reason="User"/>
+    <disable_collisions link1="L_hand_base_link" link2="L_thumb_proximal" reason="User"/>
+    <disable_collisions link1="L_hand_base_link" link2="L_thumb_proximal_base" reason="User"/>
+    <disable_collisions link1="L_hand_base_link" link2="left_wrist_yaw_link" reason="User"/>
+    <disable_collisions link1="L_index_intermediate" link2="L_index_proximal" reason="User"/>
+    <disable_collisions link1="L_middle_intermediate" link2="L_middle_proximal" reason="User"/>
+    <disable_collisions link1="L_pinky_intermediate" link2="L_pinky_proximal" reason="User"/>
+    <disable_collisions link1="L_ring_intermediate" link2="L_ring_proximal" reason="User"/>
+    <disable_collisions link1="L_thumb_distal" link2="L_thumb_intermediate" reason="User"/>
+    <disable_collisions link1="L_thumb_intermediate" link2="L_thumb_proximal" reason="User"/>
+    <disable_collisions link1="L_thumb_proximal" link2="L_thumb_proximal_base" reason="User"/>
+    <disable_collisions link1="R_hand_base_link" link2="R_index_proximal" reason="User"/>
+    <disable_collisions link1="R_hand_base_link" link2="R_middle_proximal" reason="User"/>
+    <disable_collisions link1="R_hand_base_link" link2="R_pinky_proximal" reason="User"/>
+    <disable_collisions link1="R_hand_base_link" link2="R_ring_proximal" reason="User"/>
+    <disable_collisions link1="R_hand_base_link" link2="R_thumb_proximal" reason="User"/>
+    <disable_collisions link1="R_hand_base_link" link2="R_thumb_proximal_base" reason="User"/>
+    <disable_collisions link1="R_hand_base_link" link2="right_wrist_yaw_link" reason="User"/>
+    <disable_collisions link1="R_index_intermediate" link2="R_index_proximal" reason="User"/>
+    <disable_collisions link1="R_middle_intermediate" link2="R_middle_proximal" reason="User"/>
+    <disable_collisions link1="R_pinky_intermediate" link2="R_pinky_proximal" reason="User"/>
+    <disable_collisions link1="R_ring_intermediate" link2="R_ring_proximal" reason="User"/>
+    <disable_collisions link1="R_thumb_distal" link2="R_thumb_intermediate" reason="User"/>
+    <disable_collisions link1="R_thumb_intermediate" link2="R_thumb_proximal" reason="User"/>
+    <disable_collisions link1="R_thumb_proximal" link2="R_thumb_proximal_base" reason="User"/>
+    <disable_collisions link1="head_link" link2="left_shoulder_pitch_link" reason="User"/>
+    <disable_collisions link1="head_link" link2="right_shoulder_pitch_link" reason="User"/>
+    <disable_collisions link1="head_link" link2="torso_link" reason="User"/>
+    <disable_collisions link1="left_elbow_link" link2="left_shoulder_yaw_link" reason="User"/>
+    <disable_collisions link1="left_elbow_link" link2="left_wrist_roll_link" reason="User"/>
+    <disable_collisions link1="left_hip_pitch_link" link2="pelvis" reason="User"/>
+    <disable_collisions link1="left_shoulder_pitch_link" link2="left_shoulder_roll_link" reason="User"/>
+    <disable_collisions link1="left_shoulder_pitch_link" link2="right_shoulder_pitch_link" reason="User"/>
+    <disable_collisions link1="left_shoulder_roll_link" link2="left_shoulder_yaw_link" reason="User"/>
+    <disable_collisions link1="left_wrist_pitch_link" link2="left_wrist_roll_link" reason="User"/>
+    <disable_collisions link1="left_wrist_pitch_link" link2="left_wrist_yaw_link" reason="User"/>
+    <disable_collisions link1="logo_link" link2="torso_link" reason="User"/>
+    <disable_collisions link1="pelvis" link2="pelvis_contour_link" reason="User"/>
+    <disable_collisions link1="pelvis" link2="right_hip_pitch_link" reason="User"/>
+    <disable_collisions link1="pelvis" link2="waist_roll_link" reason="User"/>
+    <disable_collisions link1="pelvis" link2="waist_yaw_link" reason="User"/>
+    <disable_collisions link1="right_elbow_link" link2="right_shoulder_yaw_link" reason="User"/>
+    <disable_collisions link1="right_elbow_link" link2="right_wrist_roll_link" reason="User"/>
+    <disable_collisions link1="right_shoulder_pitch_link" link2="right_shoulder_roll_link" reason="User"/>
+    <disable_collisions link1="right_shoulder_pitch_link" link2="torso_link" reason="User"/>
+    <disable_collisions link1="right_shoulder_roll_link" link2="right_shoulder_yaw_link" reason="User"/>
+    <disable_collisions link1="right_wrist_pitch_link" link2="right_wrist_roll_link" reason="User"/>
+    <disable_collisions link1="right_wrist_pitch_link" link2="right_wrist_yaw_link" reason="User"/>
+    <disable_collisions link1="torso_link" link2="waist_roll_link" reason="User"/>
+    <disable_collisions link1="torso_link" link2="waist_yaw_link" reason="User"/>
+    <disable_collisions link1="waist_roll_link" link2="waist_yaw_link" reason="User"/>
+</robot>

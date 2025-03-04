@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: g1_description
+    relative_path: urdf/g1_body29_hand14.urdf
+  srdf:
+    relative_path: config/g1.srdf
+  package_settings:
+    author_name: Sam Choy
+    author_email: sam@aukilabs.com
+    generated_timestamp: 1741064386
