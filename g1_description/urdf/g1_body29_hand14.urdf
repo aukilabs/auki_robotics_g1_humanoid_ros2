@@ -4,9 +4,9 @@
   </mujoco>
 
   <!-- [CAUTION] uncomment when convert to mujoco -->
-  <link name="world"></link>
+  <link name="odom"></link>
   <joint name="floating_base_joint" type="floating">
-    <parent link="world"/>
+    <parent link="odom"/>
     <child link="pelvis"/>
   </joint>
 
