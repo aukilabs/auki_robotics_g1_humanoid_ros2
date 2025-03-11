@@ -1,0 +1,9 @@
+<library path="g1_control_cpp">
+  <class name="g1_control_cpp/G1ArmSDK"
+         type="g1_control_cpp::G1ArmSDK"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Robot hardware plugin for Unitree G1 Humanoid arm_sdk.
+    </description>
+  </class>
+</library>
