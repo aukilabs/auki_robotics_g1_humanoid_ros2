@@ -227,7 +227,7 @@ return_type G1ArmSDK::write(const rclcpp::Time &, const rclcpp::Duration &)
     low_cmd_msg_.motor_cmd.at(arm_joints.at(j)).kd = kd_;
     low_cmd_msg_.motor_cmd.at(arm_joints.at(j)).tau = tau_ff_;
 
-    RCLCPP_INFO(get_logger(), "Writing: joint name: %s    motor index: %d    hw_command: %f    hw_position: %f    target_q: %f", 
+    RCLCPP_DEBUG(get_logger(), "Writing: joint name: %s    motor index: %d    hw_command: %f    hw_position: %f    target_q: %f", 
     info_.joints.at(j).name.c_str(), arm_joints.at(j), hw_commands_[j],  hw_positions_[j], target_q);
   }
   low_cmd_msg_.motor_cmd.at(JointIndex::kNotUsedJoint).q = arm_sdk_weight_;
