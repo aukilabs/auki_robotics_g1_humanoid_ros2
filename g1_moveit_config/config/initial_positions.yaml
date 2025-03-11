@@ -1,4 +1,4 @@
-# Default initial positions for g1's ros2_control fake system
+# Default initial positions for g1's ros2_control G1 Robot arm_sdk
 
 initial_positions:
   left_elbow_joint: 0
