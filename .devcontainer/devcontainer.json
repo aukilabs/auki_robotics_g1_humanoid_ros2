@@ -1,0 +1,35 @@
+{
+    "name": " Devcontainer",
+    "image": "aukilabs/g1_dev_image:humble",
+    "build": {
+        "dockerfile": "../docker/dockerfile.dev",
+        "context": ".."
+    },
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/src,type=bind",
+    "customizations": {
+        "vscode": {
+            "extensions":[
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack"
+            ]
+        }
+    },
+    "runArgs": [
+        "--network=host"
+    ],
+
+    // Uncomment if you want display forward
+    // "containerEnv": {
+    //     "DISPLAY": "unix:0"
+    // },
+    "mounts": [
+        // Modify this to your own data folder
+        // "source=/home/auki/Workspaces/sam_ws/data,target=/data,type=bind",
+
+        // Uncomment if you want display forward
+        // "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
+    ]
+}
