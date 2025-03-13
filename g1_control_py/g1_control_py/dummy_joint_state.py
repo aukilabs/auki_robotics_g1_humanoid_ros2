@@ -26,7 +26,7 @@ class DummyJointStatePublisher(Node):
         msg.velocity = self.joint_velocities
         msg.effort = self.joint_efforts
         self.publisher_.publish(msg)
-        self.get_logger().info(f'Published joint states: {msg}')
+        # self.get_logger().info(f'Published joint states: {msg}')
 
 
 def main(args=None):
