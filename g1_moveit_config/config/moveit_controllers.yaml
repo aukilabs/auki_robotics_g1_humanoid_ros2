@@ -7,7 +7,6 @@ moveit_simple_controller_manager:
     - upper_body_controller
 
   upper_body_controller:
-    action_ns: "follow_joint_trajectory"
     type: FollowJointTrajectory
     joints:
       - waist_yaw_joint
@@ -27,3 +26,4 @@ moveit_simple_controller_manager:
       - right_wrist_roll_joint
       - right_wrist_pitch_joint
       - right_wrist_yaw_joint
+    action_ns: follow_joint_trajectory

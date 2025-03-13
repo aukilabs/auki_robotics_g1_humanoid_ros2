@@ -1,11 +1,11 @@
 sensors:
   - default_sensor
 default_sensor:
-  filtered_cloud_topic: "/livox/lidar_filtered"
-  max_range: 5.0
-  max_update_rate: 10.0
-  padding_offset: 0.1 # ignore range
+  filtered_cloud_topic: /livox/lidar_filtered
+  max_range: 1.5
+  max_update_rate: 5.0
+  padding_offset: 0.1
   padding_scale: 1.0
   point_cloud_topic: /livox/lidar
-  point_subsample: 1
+  point_subsample: 5
   sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
