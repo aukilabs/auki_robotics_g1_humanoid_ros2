@@ -1,0 +1,17 @@
+FROM ros:humble-ros-base-jammy
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-humble-rmw-cyclonedds-cpp \
+    ros-humble-rosidl-generator-dds-idl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Compile unitree_cyclonedds
+RUN mkdir /opt/unitree && cd /opt/unitree && \
+    git clone https://github.com/unitreerobotics/unitree_ros2 && \
+    cd unitree_ros2/cyclonedds_ws/src && \
+    git clone https://github.com/ros2/rmw_cyclonedds -b humble && \
+    git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x && \
+    cd .. && colcon build --merge-install --packages-select cyclonedds
+
+COPY docker/setup_unitree.bash /opt/unitree
+COPY docker/g1_entrypoint.sh /
