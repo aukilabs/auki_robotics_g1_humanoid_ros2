@@ -20,7 +20,7 @@
     "runArgs": [
         "--network=host"
     ],
-
+    "privileged": true,
     // Uncomment if you want display forward
     // "containerEnv": {
     //     "DISPLAY": "unix:0"
@@ -32,6 +32,6 @@
         // Uncomment if you want display forward
         // "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
     ],
-    "postCreateCommand": "rosdep install --from-paths src --ignore-src -r -y",
+    "postCreateCommand": "apt update && rosdep install --from-paths src --ignore-src -r -y",
     "postAttachCommand": "source /g1_entrypoint.sh"
 }
