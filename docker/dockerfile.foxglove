@@ -1,0 +1,15 @@
+FROM aukilabs/unitree_ros_base:humble
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-humble-foxglove-bridge \
+    ros-humble-foxglove-compressed-video-transport \
+    ros-humble-foxglove-msgs \
+    ros-humble-nav2-msgs \
+    ros-humble-realsense2-camera-msgs \
+    ros-humble-map-msgs \ 
+    ros-humble-dwb-msgs \
+    ros-humble-sensor-msgs \
+    && rm -rf /var/lib/apt/lists/*
+
+ENTRYPOINT ["/g1_entrypoint.sh"]
+CMD ros2 launch foxglove_bridge foxglove_bridge_launch.xml
