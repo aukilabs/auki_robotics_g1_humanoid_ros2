@@ -1,6 +1,6 @@
 {
     "name": " Devcontainer",
-    "image": "aukilabs/g1_dev_image:humble",
+    "image": "aukilabs/unitree_ros_base:humble",
     "build": {
         "dockerfile": "../docker/dockerfile.dev",
         "context": ".."
@@ -31,5 +31,7 @@
 
         // Uncomment if you want display forward
         // "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
-    ]
+    ],
+    "postCreateCommand": "rosdep install --from-paths src --ignore-src -r -y",
+    "postAttachCommand": "source /g1_entrypoint.sh"
 }
