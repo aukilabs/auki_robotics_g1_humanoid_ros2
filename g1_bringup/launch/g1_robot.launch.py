@@ -15,7 +15,8 @@ def generate_launch_description():
     g1_description_file = os.path.join(FindPackageShare('g1_description').find('g1_description'), 'launch', 'g1_description.launch.py')
 
     # Navigation
-    nav_file = os.path.join(FindPackageShare('nav2_bringup').find('nav2_bringup'), 'launch', 'bringup_launch.py')
+    # nav_file = os.path.join(FindPackageShare('nav2_bringup').find('nav2_bringup'), 'launch', 'bringup_launch.py')
+    nav_file = os.path.join(FindPackageShare('nav2_bringup').find('nav2_bringup'), 'launch', 'navigation_launch.py')
     nav_params_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'navigation', 'stvl_navigation.yaml') # stvl
     # nav_params_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'navigation', 'octomap_navigation.yaml') # octomap
     return LaunchDescription([
@@ -25,7 +26,7 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(rs_file),
             launch_arguments={
-                'camera_name': 'd435',
+                'camera_name': 'd435i',
                 'camera_namespace': 'rs_camera',
                 'config_file': rs_config
             }.items()
