@@ -1,5 +1,5 @@
 {
-    "name": " Devcontainer",
+    "name": " g1_humanoid_dev",
     "image": "aukilabs/unitree_ros_base:humble",
     "build": {
         "dockerfile": "../docker/dockerfile.dev",

@@ -20,3 +20,4 @@ COPY docker/setup_unitree.bash /opt/unitree
 COPY docker/g1_entrypoint.sh /
 
 ENTRYPOINT ["/g1_entrypoint.sh"]
+CMD ["/bin/bash"]
