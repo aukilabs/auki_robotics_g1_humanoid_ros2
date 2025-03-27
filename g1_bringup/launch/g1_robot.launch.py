@@ -26,7 +26,7 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(rs_file),
             launch_arguments={
-                'camera_name': 'd435i',
+                'camera_name': 'd435',
                 'camera_namespace': 'rs_camera',
                 'config_file': rs_config
             }.items()
@@ -50,15 +50,15 @@ def generate_launch_description():
             package='g1_control_py',
             executable='goal_pose_republisher',
         ),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(nav_file),
-            launch_arguments={
-                'slam': 'False',
-                'use_sim_time': 'False',
-                'map':"/home/unitree/Workspaces/ros2/auki_ws/src/g1_humanoid_ros2/g1_bringup/config/navigation/empty.yaml",
-                'params_file': nav_params_file
-            }.items()
-        ),
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(nav_file),
+        #     launch_arguments={
+        #         'slam': 'False',
+        #         'use_sim_time': 'False',
+        #         'map':"/home/unitree/Workspaces/ros2/auki_ws/src/g1_humanoid_ros2/g1_bringup/config/navigation/empty.yaml",
+        #         'params_file': nav_params_file
+        #     }.items()
+        # ),
         Node(
             package="tf2_ros",
             executable="static_transform_publisher",
