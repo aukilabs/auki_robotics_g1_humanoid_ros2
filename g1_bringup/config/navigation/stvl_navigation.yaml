@@ -57,6 +57,7 @@ bt_navigator:
     groot_zmq_publisher_port: 1666
     groot_zmq_server_port: 1667
     default_bt_xml_filename: "navigate_w_replanning_and_recovery.xml"
+    server_timeout: 1000.0
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
     - nav2_follow_path_action_bt_node
@@ -235,7 +236,7 @@ global_costmap:
       robot_base_frame: pelvis
       use_sim_time: True
       robot_radius: 0.35
-      rolling_window: false
+      rolling_window: true
       width: 30
       height: 30
       origin_x: -15.0
