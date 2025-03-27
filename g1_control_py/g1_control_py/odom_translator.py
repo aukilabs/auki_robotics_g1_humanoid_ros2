@@ -85,6 +85,31 @@ class OdomModeStateListener(Node):
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)
 
+        t2 = TransformStamped()
+        # Read message content and assign it to
+        # corresponding tf variables
+        t2.header = odom_msg.header
+        t2.header.frame_id = "pelvis"
+        t2.child_frame_id = "pelvis_base"
+
+        # Turtle only exists in 2D, thus we get x and y translation
+        # coordinates from the message and set the z coordinate to 0
+        t2.transform.translation.x = 0.0
+        t2.transform.translation.y = 0.0
+        t2.transform.translation.z = -odom_msg.pose.pose.position.z
+
+        # For the same reason, turtle can only rotate around one axis
+        # and this why we set rotation in x and y to 0 and obtain
+        # rotation in z axis from the message
+        t2.transform.rotation.x = 0.0
+        t2.transform.rotation.y = 0.0
+        t2.transform.rotation.z = 0.0
+        t2.transform.rotation.w = 1.0
+
+        # Send the transformation
+        self.tf_broadcaster.sendTransform(t2)
+
+
 
 
 def main(args=None):
