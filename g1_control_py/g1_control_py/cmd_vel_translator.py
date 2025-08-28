@@ -22,7 +22,7 @@ class CmdVelListener(Node):
         self.get_logger().info("Listening to /cmd_vel")
 
         # Publisher
-        self.publisher = self.create_publisher(Request, '/api/loco/request', 10)
+        self.publisher = self.create_publisher(Request, '/api/sport/request', 10)
 
     def cmd_vel_callback(self, msg):
         self.get_logger().debug(f"Received cmd_vel: linear=({msg.linear.x}, {msg.linear.y}, {msg.linear.z}), "
