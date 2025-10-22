@@ -21,7 +21,7 @@ class LivoxLidarRepublisher(Node):
 
     def lidar_callback(self, lidar_msg):
         lidar_msg.header.stamp = self.get_clock().now().to_msg()
-        lidar_msg.header.frame_id = "mid360_link"
+        # lidar_msg.header.frame_id = "mid360_link"
         self.publisher.publish(lidar_msg)
         # self.get_logger().info("published lidar")
 
