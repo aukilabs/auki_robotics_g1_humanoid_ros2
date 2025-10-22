@@ -24,8 +24,7 @@ setup(
             'odom_translator = g1_control_py.odom_translator:main',
             'goal_pose_republisher = g1_control_py.goal_pose_republisher:main',
             'dummy_joint_state_publisher = g1_control_py.dummy_joint_state:main',
-            'init_pelvis_pose = g1_control_py.init_pelvis_pose:main',
-            'livox_lidar_republisher = g1_control_py.livox_lidar_republisher:main',
+            'init_pelvis_pose = g1_control_py.init_pelvis_pose:main'
         ],
     },
 )

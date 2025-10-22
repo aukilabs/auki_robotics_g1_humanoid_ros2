@@ -49,10 +49,6 @@ def generate_launch_description():
             package='g1_control_py',
             executable='goal_pose_republisher',
         ),
-        Node(
-            package='g1_control_py',
-            executable='livox_lidar_republisher',
-        ),
         # IncludeLaunchDescription(
         #     PythonLaunchDescriptionSource(nav_file),
         #     launch_arguments={
