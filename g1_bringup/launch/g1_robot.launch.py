@@ -41,9 +41,13 @@ def generate_launch_description():
             package='g1_control_py',
             executable='cmd_vel_translator',
         ),
+        # Node(
+        #     package='g1_control_py',
+        #     executable='odom_translator',
+        # ),
         Node(
             package='g1_control_py',
-            executable='odom_translator',
+            executable='slam_odom_republisher',
         ),
         Node(
             package='g1_control_py',
