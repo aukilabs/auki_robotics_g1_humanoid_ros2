@@ -6,7 +6,7 @@ rgb_camera.profile: 1280x720x15
 
 enable_depth: false
 depth_module.emitter_enabled': 0
-depth_module.profile': '640x360x90'
+depth_module.profile': '640x360x30'
 align_depth.enable: true
 
 enable_gyro: true
