@@ -2,12 +2,14 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.substitutions import FindPackageShare
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch.actions import DeclareLaunchArgument
 import os
 
 def generate_launch_description():
     # Sensors
-    mid360_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'launch', 'sensors', 'mid360.launch.py')
+    # mid360_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'launch', 'sensors', 'mid360.launch.py')
     rs_file = os.path.join(FindPackageShare('realsense2_camera').find('realsense2_camera'), 'launch', 'rs_launch.py')
     rs_config = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'sensors', 'realsense.yaml')
 
@@ -20,9 +22,6 @@ def generate_launch_description():
     nav_params_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'navigation', 'stvl_navigation.yaml') # stvl
     # nav_params_file = os.path.join(FindPackageShare('g1_bringup').find('g1_bringup'), 'config', 'navigation', 'octomap_navigation.yaml') # octomap
     return LaunchDescription([
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(mid360_file)
-        ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(rs_file),
             launch_arguments={
@@ -50,6 +49,10 @@ def generate_launch_description():
             package='g1_control_py',
             executable='goal_pose_republisher',
         ),
+        Node(
+            package='g1_control_py',
+            executable='livox_lidar_republisher',
+        ),
         # IncludeLaunchDescription(
         #     PythonLaunchDescriptionSource(nav_file),
         #     launch_arguments={
@@ -64,5 +67,14 @@ def generate_launch_description():
             executable="static_transform_publisher",
             output="screen" ,
             arguments=["0", "0", "0", "0", "0", "0", "map", "odom"]
+        ),
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(mid360_file)
+        # ),
+        Node(
+            package="auki_pose_publisher",
+            executable="auki_pose_publisher",
+            output="screen" ,
+            parameters=['/home/unitree/Workspaces/ros2/auki_ws/configs/auki_pose_publisher.yaml']
         )
     ])
