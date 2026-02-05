@@ -1,0 +1,9 @@
+FROM aukilabs/unitree_ros_base:humble
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    ros-humble-spatio-temporal-voxel-layer \
+    && rm -rf /var/lib/apt/lists/*
+
+ENTRYPOINT ["/g1_entrypoint.sh"]

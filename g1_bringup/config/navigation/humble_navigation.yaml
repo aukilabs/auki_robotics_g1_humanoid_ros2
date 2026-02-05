@@ -1,6 +1,6 @@
 amcl:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     alpha1: 0.2
     alpha2: 0.2
     alpha3: 0.2
@@ -41,17 +41,18 @@ amcl:
 
 bt_navigator:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     global_frame: map
-    robot_base_frame: pelvis
+    robot_base_frame: pelvis_base
     odom_topic: /odom
-    bt_loop_duration: 10
-    default_server_timeout: 20
+    bt_loop_duration: 100
+    default_server_timeout: 100
     wait_for_service_timeout: 1000
     # 'default_nav_through_poses_bt_xml' and 'default_nav_to_pose_bt_xml' are use defaults:
     # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
     # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
     # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
+    default_nav_to_pose_bt_xml: /opt/aukilabs/configs/navigate_to_pose_w_replanning_and_recovery.xml
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
@@ -103,18 +104,18 @@ bt_navigator:
 
 bt_navigator_navigate_through_poses_rclcpp_node:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 bt_navigator_navigate_to_pose_rclcpp_node:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 controller_server:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
-    min_y_velocity_threshold: 0.5
+    min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.001
     failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
@@ -127,77 +128,76 @@ controller_server:
       required_movement_radius: 0.5
       movement_time_allowance: 10.0
     # Goal checker parameters
-    #precise_goal_checker:
-    #  plugin: "nav2_controller::SimpleGoalChecker"
-    #  xy_goal_tolerance: 0.25
-    #  yaw_goal_tolerance: 0.25
-    #  stateful: True
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.25
+      xy_goal_tolerance: 1.00
       yaw_goal_tolerance: 0.25
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      min_vel_x: 0.0
-      min_vel_y: 0.0
-      max_vel_x: 0.26
-      max_vel_y: 0.0
+      min_vel_x: -0.1
+      min_vel_y: -0.1
+      max_vel_x: 0.5
+      max_vel_y: 0.1
       max_vel_theta: 1.0
       min_speed_xy: 0.0
-      max_speed_xy: 0.26
+      max_speed_xy: 0.5
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
-      acc_lim_x: 2.5
-      acc_lim_y: 0.0
-      acc_lim_theta: 3.2
+      acc_lim_x: 5.0
+      acc_lim_y: 1.0
+      acc_lim_theta: 2.5
       decel_lim_x: -2.5
-      decel_lim_y: 0.0
+      decel_lim_y: -1.0
       decel_lim_theta: -3.2
       vx_samples: 20
       vy_samples: 5
       vtheta_samples: 20
-      sim_time: 1.7
+      sim_time: 2.0
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
-      xy_goal_tolerance: 0.25
+      xy_goal_tolerance: 1.0
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.02
-      PathAlign.scale: 32.0
-      PathAlign.forward_point_distance: 0.1
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist", ObstacleFootprintCritic]
+      BaseObstacle.scale: 0.1
+      PathAlign.scale: 50.0
+      PathAlign.forward_point_distance: 1.0
       GoalAlign.scale: 24.0
-      GoalAlign.forward_point_distance: 0.1
+      GoalAlign.forward_point_distance: 0.3
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
       RotateToGoal.scale: 32.0
       RotateToGoal.slowing_factor: 5.0
       RotateToGoal.lookahead_time: -1.0
+      RotateToGoal.xy_goal_tolerance: 0.75
+      RotateToGoal.trans_stopped_velocity: 0.2
 
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0
-      publish_frequency: 2.0
+      update_frequency: 20.0
+      publish_frequency: 5.0
       global_frame: odom
-      robot_base_frame: pelvis
-      use_sim_time: True
+      robot_base_frame: pelvis_base
+      use_sim_time: False
       rolling_window: true
-      width: 3
-      height: 3
+      width: 6
+      height: 6
       resolution: 0.05
-      robot_radius: 0.22
+      robot_radius: 0.25
+      # footprint: "[[0.15, 0.25], [0.15, -0.25], [-0.15, -0.25], [-0.15, 0.25]]"
+      footprint_padding: 0.1
       plugins: ["stvl_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        cost_scaling_factor: 10.0
+        inflation_radius: 0.3
       stvl_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer" # For Foxy and later
         enabled: true
@@ -208,7 +208,7 @@ local_costmap:
         unknown_threshold: 15
         mark_threshold: 0
         update_footprint_enabled: true
-        combination_method: 1
+        combination_method: 0
         origin_z: 0.0
         publish_voxel_map: true
         transform_tolerance: 0.2
@@ -217,43 +217,48 @@ local_costmap:
         observation_sources: lidar_mark lidar_clear
         lidar_mark:
           data_type: PointCloud2
-          topic: /livox/lidar
+          # topic: /livox/lidar
+          topic: /utlidar/cloud_livox_mid360
           marking: true
           clearing: false
           obstacle_range: 3.0          # meters
           min_obstacle_height: 0.1     # default 0, meters
           # max for office should be 1.2
           # max for playgroun should be 10
-          max_obstacle_height: 10.0     # default 3, meters,
+          max_obstacle_height: 3.0     # default 3, meters,
           expected_update_rate: 0.0    # default 0, if not updating at this rate at least, remove from buffer
           observation_persistence: 0.0 # default 0, use all measurements taken during now-value, 0=latest
-          inf_is_valid: false          # default false, for laser scans
+          inf_is_valid: true          # default false, for laser scans
           filter: "voxel"        # default passthrough, apply "voxel", "passthrough", or no filter to sensor data, recommend on     voxel_min_points: 0          # default 0, minimum points per voxel for voxel filter
           clear_after_reading: true    # default false, clear the buffer after the layer gets readings from it
+          model_type: 1
         lidar_clear:
-          enabled: true                #default true, can be toggled on/off with associated service call
+          enabled: false                #default true, can be toggled on/off with associated service call
           data_type: PointCloud2
-          topic: /livox/lidar
+          # topic: /livox/lidar
+          topic: /utlidar/cloud_livox_mid360
           marking: false
           clearing: true
           max_z: 8.0                  # default 0, meters
-          min_z: 1.0                  # default 10, meters
+          min_z: 0.1                  # default 10, meters
           vertical_fov_angle: 0.6   # default 0.7, radians. For 3D lidars it's the symmetric FOV about the planar axis.
           vertical_fov_padding: 0.05    # 3D Lidar only. Default 0, in meters 
           horizontal_fov_angle: 6.29  # 3D lidar scanners like the VLP16 have 360 deg horizontal FOV.
-          decay_acceleration: 5.0     # default 0, 1/s^2. 
+          decay_acceleration: 10.0     # default 0, 1/s^2. 
           model_type: 1               # default 0, model type for frustum. 0=depth camera, 1=3d lidar like VLP16 or similar
       always_send_full_costmap: True
 
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 1.0
-      publish_frequency: 1.0
-      global_frame: odom
-      robot_base_frame: pelvis
-      use_sim_time: True
-      robot_radius: 0.35
+      update_frequency: 20.0
+      publish_frequency: 2.0
+      global_frame: map
+      robot_base_frame: pelvis_base
+      use_sim_time: False
+      robot_radius: 0.25
+      # footprint: "[[0.15, 0.25], [0.15, -0.25], [-0.15, -0.25], [-0.15, 0.25]]"
+      footprint_padding: 0.1
       rolling_window: false
       width: 30
       height: 30
@@ -266,14 +271,14 @@ global_costmap:
         observation_sources: lidar_mark lidar_clear
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer" # For Foxy and later
         enabled: true
-        voxel_decay: 5.0
+        voxel_decay: 0.5
         decay_model: 0
         voxel_size: 0.05
         track_unknown_space: true
         unknown_threshold: 15
         mark_threshold: 0
         update_footprint_enabled: true
-        combination_method: 1
+        combination_method: 0
         origin_z: 0.0
         publish_voxel_map: true
         transform_tolerance: 0.2
@@ -282,14 +287,15 @@ global_costmap:
         observation_sources: lidar_mark lidar_clear
         lidar_mark:
           data_type: PointCloud2
-          topic: /livox/lidar
+          # topic: /livox/lidar
+          topic: /utlidar/cloud_livox_mid360
           marking: true
           clearing: false
           obstacle_range: 3.0          # meters
-          min_obstacle_height: 0.1     # default 0, meters
+          min_obstacle_height: 0.2     # default 0, meters
           # max for office should be 1.2
           # max for playgroun should be 10
-          max_obstacle_height: 10.0     # default 3, meters,
+          max_obstacle_height: 3.0     # default 3, meters,
           expected_update_rate: 0.0    # default 0, if not updating at this rate at least, remove from buffer
           observation_persistence: 0.0 # default 0, use all measurements taken during now-value, 0=latest
           inf_is_valid: false          # default false, for laser scans
@@ -298,7 +304,8 @@ global_costmap:
         lidar_clear:
           enabled: true                #default true, can be toggled on/off with associated service call
           data_type: PointCloud2
-          topic: /livox/lidar
+          # topic: /livox/lidar
+          topic: /utlidar/cloud_livox_mid360
           marking: false
           clearing: true
           max_z: 8.0                  # default 0, meters
@@ -306,12 +313,12 @@ global_costmap:
           vertical_fov_angle: 0.6     # default 0.7, radians. For 3D lidars it's the symmetric FOV about the planar axis.
           vertical_fov_padding: 0.05  # 3D Lidar only. Default 0, in meters 
           horizontal_fov_angle: 6.29  # 3D lidar scanners like the VLP16 have 360 deg horizontal FOV.
-          decay_acceleration: 5.0     # default 0, 1/s^2. 
+          decay_acceleration: 20.0     # default 0, 1/s^2. 
           model_type: 1               # default 0, model type for frustum. 0=depth camera, 1=3d lidar like VLP16 or similar
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.2
+        inflation_radius: 0.3
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -319,14 +326,14 @@ global_costmap:
 
 map_server:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     # Overridden in launch by the "map" launch configuration or provided default value.
     # To use in yaml, remove the default "map" value in the tb3_simulation_launch.py file & provide full path to map below.
     yaml_filename: ""
 
 map_saver:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     save_map_timeout: 5.0
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
@@ -335,17 +342,54 @@ map_saver:
 planner_server:
   ros__parameters:
     expected_planner_frequency: 20.0
-    use_sim_time: True
+    use_sim_time: False
     planner_plugins: ["GridBased"]
     GridBased:
-      plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 0.5
-      use_astar: false
-      allow_unknown: true
+      # plugin: "nav2_navfn_planner/NavfnPlanner"
+      # tolerance: 0.5
+      # use_astar: true
+      # allow_unknown: false
+      plugin: "nav2_smac_planner/SmacPlannerHybrid"
+      downsample_costmap: false           # whether or not to downsample the map
+      downsampling_factor: 1              # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
+      tolerance: 0.25                     # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
+      allow_unknown: true                 # allow traveling in unknown space
+      max_iterations: 1000000             # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+      max_on_approach_iterations: 1000    # Maximum number of iterations after within tolerances to continue to try to find exact solution
+      max_planning_time: 5.0              # max time in s for planner to plan, smooth
+      motion_model_for_search: "DUBIN"    # Hybrid-A* Dubin, Redds-Shepp
+      angle_quantization_bins: 72         # Number of angle bins for search
+      analytic_expansion_ratio: 3.5       # The ratio to attempt analytic expansions during search for final approach.
+      analytic_expansion_max_length: 3.0  # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
+      analytic_expansion_max_cost: 200.0  # The maximum single cost for any part of an analytic expansion to contain and be valid, except when necessary on approach to goal
+      analytic_expansion_max_cost_override: false  #  Whether or not to override the maximum cost setting if within critical distance to goal (ie probably required)
+      minimum_turning_radius: 0.05        # minimum turning radius in m of path / vehicle
+      reverse_penalty: 2.0                # Penalty to apply if motion is reversing, must be => 1
+      change_penalty: 0.0                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
+      non_straight_penalty: 1.2           # Penalty to apply if motion is non-straight, must be => 1
+      cost_penalty: 3.0                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
+      retrospective_penalty: 0.015
+      lookup_table_size: 20.0             # Size of the dubin/reeds-sheep distance window to cache, in meters.
+      cache_obstacle_heuristic: false     # Cache the obstacle map dynamic programming distance expansion heuristic between subsequent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
+      debug_visualizations: false         # For Hybrid nodes: Whether to publish expansions on the /expansions topic as an array of poses (the orientation has no meaning) and the path's footprints on the /planned_footprints topic. WARNING: heavy to compute and to display, for debug only as it degrades the performance.
+      use_quadratic_cost_penalty: False
+      downsample_obstacle_heuristic: True
+      allow_primitive_interpolation: False
+      coarse_search_resolution: 4         # Number of bins to skip when doing a coarse search for the path. Only used for all_direction goal heading mode.
+      goal_heading_mode: "DEFAULT"        # DEFAULT, BIDIRECTIONAL, ALL_DIRECTION
+      smooth_path: false                   # If true, does a simple and quick smoothing post-processing to the path
+
+      smoother:
+        max_iterations: 1000
+        w_smooth: 0.3
+        w_data: 0.2
+        tolerance: 1.0e-10
+        do_refinement: true
+        refinement_num: 2
 
 smoother_server:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     smoother_plugins: ["simple_smoother"]
     simple_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
@@ -355,7 +399,7 @@ smoother_server:
 
 behavior_server:
   ros__parameters:
-    costmap_topic: local_costmap/costmap_raw
+    costmap_topic: local_costmap/costmap
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
     behavior_plugins: ["spin", "backup", "drive_on_heading", "assisted_teleop", "wait"]
@@ -369,10 +413,10 @@ behavior_server:
       plugin: "nav2_behaviors/Wait"
     assisted_teleop:
       plugin: "nav2_behaviors/AssistedTeleop"
-    global_frame: odom
-    robot_base_frame: pelvis
+    global_frame: map
+    robot_base_frame: pelvis_base
     transform_tolerance: 0.1
-    use_sim_time: true
+    use_sim_time: False
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
@@ -380,11 +424,11 @@ behavior_server:
 
 robot_state_publisher:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
 
 waypoint_follower:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     loop_rate: 20
     stop_on_failure: false
     waypoint_task_executor_plugin: "wait_at_waypoint"
@@ -393,17 +437,32 @@ waypoint_follower:
       enabled: True
       waypoint_pause_duration: 200
 
+# velocity_smoother:
+#   ros__parameters:
+#     use_sim_time: false
+#     smoothing_frequency: 20.0
+#     scale_velocities: False
+#     feedback: "CLOSED_LOOP"
+#     max_velocity: [0.5, 0.0, 1.0]
+#     min_velocity: [-0.5, 0.0, -1.0]
+#     max_accel: [2.5, 0.0, 3.2]
+#     max_decel: [-2.5, 0.0, -3.2]
+#     odom_topic: "odom"
+#     odom_duration: 0.1
+#     deadband_velocity: [0.0, 0.0, 0.0]
+#     velocity_timeout: 0.5
+
 velocity_smoother:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.26, 0.0, 1.0]
-    min_velocity: [-0.26, 0.0, -1.0]
-    max_accel: [2.5, 0.0, 3.2]
-    max_decel: [-2.5, 0.0, -3.2]
+    max_velocity: [0.5, 0.5, 1.0]
+    min_velocity: [-0.5, -0.5, -1.0]
+    max_accel: [2.5, 2.5, 3.2]
+    max_decel: [-2.5, -2.5, -3.2]
     odom_topic: "odom"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
-    velocity_timeout: 1.0
+    velocity_timeout: 1.0å
